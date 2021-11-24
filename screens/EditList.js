@@ -79,7 +79,7 @@ export default ({ navigation, route }) => {
         />
       </View>
       <Button
-        text="Save"
+        text="Add List"
         onPress={() => {
           if (title.length > 1) {
             route.params.saveChanges({ title, color });
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
   input: {
     color: colors.darkGray,
     borderBottomColor: colors.lightGray,
-    borderBottomWidth: 0.5,
+    borderBottomWidth: 1,
     marginHorizontal: 5,
     padding: 3,
     height: 30,
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
   },
   saveButton: {
     borderRadius: 25,
-    backgroundColor: colors.darkGray,
+    backgroundColor: colors.bground,
     height: 48,
     margin: 16,
     justifyContent: "center",
@@ -122,5 +122,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 16,
     marginBottom: 8,
+    marginTop: 10,
   },
 });

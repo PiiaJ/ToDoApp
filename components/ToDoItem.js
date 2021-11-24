@@ -12,8 +12,8 @@ import Checkbox from './Checkbox';
 
 // 
 
-const EditableText = ({isChecked, onChangeText, text, isNewItem}) => {
-    const [isEditMode, setEditMode] = useState(isNewItem);
+const EditableText = ({isChecked, onChangeText, text, ...props}) => {
+    const [isEditMode, setEditMode] = useState(props.new);
     return(
         <TouchableOpacity style={{flex:1}} onPress={() => !isChecked && setEditMode(true)}>
         {isEditMode ?
@@ -27,7 +27,10 @@ const EditableText = ({isChecked, onChangeText, text, isNewItem}) => {
                 onSubmitEditing={()=> {}}
                 maxLength={30}
                 style={[styles.input, {outline: "none"}]}
-                onBlur={() => setEditMode(false)}
+                onBlur={() => {
+                    props.onBlur && props.onBlur()
+                    setEditMode(false)
+                }}
             /> :
             <Text
             style={[
@@ -46,7 +49,7 @@ const EditableText = ({isChecked, onChangeText, text, isNewItem}) => {
 }
 
 // Main code
-export default ({text, isChecked, onChecked, onChangeText, onDelete, isNewItem}) => {
+export default ({text, isChecked, onChecked, onChangeText, onDelete, ...props}) => {
     return(
         <View style={styles.container}>
             <View style={{flexDirection: "row", flex: 1}}>
@@ -55,7 +58,7 @@ export default ({text, isChecked, onChecked, onChangeText, onDelete, isNewItem})
                     text={text} 
                     onChangeText={onChangeText} 
                     isChecked={isChecked} 
-                    isNewItem={isNewItem}
+                    {...props}
                 />
             </View>
             <TouchableOpacity onPress={onDelete}>

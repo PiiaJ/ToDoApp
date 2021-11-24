@@ -1,6 +1,6 @@
 // React native libraries import
 
-import React, { useLayoutEffect, useState } from "react";
+import React, { useLayoutEffect, useState , useEffect} from "react";
 import {
   StyleSheet,
   Text,
@@ -9,10 +9,13 @@ import {
   FlatList,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { onSnapshot, addDoc, removeDoc, updateDoc } from "../services/collections";
+import "firebase/compat/auth";
+import firebase from "firebase/compat/app";
+import "firebase/compat/firestore";
 
 // Importing custom made variables/pages
-
-import colors from "../constants/colors";
+import color from "../constants/colors";
 
 // This code creates the actual "list" and applies buttons to it
 
@@ -27,10 +30,10 @@ const ListButton = ({ title, color, onPress, onDelete, onOptions }) => {
       </View>
       <View style={{ flexDirection: "row" }}>
         <TouchableOpacity onPress={onOptions}>
-          <Ionicons name="options-outline" size={24} color="white" />
+          <Ionicons name="options-outline" size={24} color="black" />
         </TouchableOpacity>
         <TouchableOpacity onPress={onDelete}>
-          <Ionicons name="trash-outline" size={24} color="white" />
+          <Ionicons name="trash-outline" size={24} color="black" />
         </TouchableOpacity>
       </View>
     </TouchableOpacity>
@@ -46,7 +49,7 @@ const renderAddListIcon = (navigation, addItemToList) => {
         style={{ justifyContent: "center", marginRight: 4 }}
         onPress={() => navigation.navigate("Settings")}
       >
-        <Ionicons name="settings" size={16} />
+        <Ionicons name="settings" size={24} />
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() =>
@@ -63,31 +66,42 @@ const renderAddListIcon = (navigation, addItemToList) => {
 // This happens on "Home.js" load
 export default ({ navigation }) => {
   // List of a list in array
-  const [lists, setLists] = useState([
-    { title: "School", color: colors.red },
-    { title: "Fun", color: colors.green },
-    { title: "Work", color: colors.blue },
-  ]);
+  const [lists, setLists] = useState([]);
+  const listRef = firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid).collection("lists");
+
+  useEffect(() => {
+    onSnapshot(listRef, (newLists) => {
+      setLists(newLists);
+    }, {
+      sort: (a,b) => {
+          if(a.index < b.index) {
+            return -1;
+          }
+          if(a.index > b.index) {
+            return 1;
+          }
+          return 0;
+      }
+    })
+  }, [])
 
   // Function that adds a list to a lists array
 
-  const addItemToList = (item) => {
-    lists.push(item);
-    setLists([...lists]);
+  const addItemToList = ({title, color}) => {
+    const index =lists.length > 1 ? lists[lists.length - 1].index + 1 : 0;
+    addDoc(listRef, {title, color, index})
   };
 
   // Function that deletes the list from the list of lists
 
-  const removeItemFromLists = (index) => {
-    lists.splice(index, 1);
-    setLists([...lists]);
+  const removeItemFromLists = (id) => {
+    removeDoc(listRef, id)
   };
 
   // This code updates item
 
-  const updateItemFromLists = (index, item) => {
-    lists[index] = item;
-    setLists([...lists]);
+  const updateItemFromLists = (id, item) => {
+    updateDoc(listRef, id, item);
   };
 
   // This code is triggered by other code and renders the "+" button on the right side of the main header at "home"
@@ -103,23 +117,23 @@ export default ({ navigation }) => {
     <View style={styles.container}>
       <FlatList
         data={lists}
-        renderItem={({ item: { title, color }, index }) => {
+        renderItem={({ item: { title, color, id, index }}) => {
           return (
             <ListButton
               title={title}
               color={color}
               navigation={navigation}
               onPress={() => {
-                navigation.navigate("ToDoList", { title, color });
+                navigation.navigate("ToDoList", { title, color, listId: id,});
               }}
               onOptions={() => {
                 navigation.navigate("Edit", {
                   title,
                   color,
-                  saveChanges: (item) => updateItemFromLists(index, item),
+                  saveChanges: (newItem) => updateItemFromLists(id, {index, ...newItem}),
                 });
               }}
-              onDelete={() => removeItemFromLists(index)}
+              onDelete={() => removeItemFromLists(id)}
             />
           );
         }}
@@ -135,7 +149,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
   },
-  itemTitle: { fontSize: 24, padding: 5, color: "white" },
+  itemTitle: { fontSize: 24, padding: 5, color: "black" },
   itemContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -148,8 +162,9 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   icon: {
-    padding: 5,
-    fontSize: 24,
+    padding: 10,
+    fontSize: 30,
+    marginEnd: 20,
   },
   centeredView: {
     justifyContent: "center",

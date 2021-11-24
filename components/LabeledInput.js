@@ -36,7 +36,7 @@ export default ({
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 8,
+    paddingHorizontal: 30,
     margin: 4,
   },
   labelContainer: {
@@ -49,11 +49,13 @@ const styles = StyleSheet.create({
     marginLeft: 4,
   },
   input: {
-    borderBottomColor: colors.lightGray,
-    borderBottomWidth: 1,
-    paddingLeft: 4,
-    height: 32,
-    fontSize: 24,
+    borderColor: colors.bground,
+    borderWidth: 1,
+    paddingLeft: 15,
+    height: 45,
+    fontSize: 20,
     color: colors.black,
+    backgroundColor: "#CCF0FF",
+    borderRadius: 20,
   },
 });
