@@ -1,62 +1,98 @@
 // Importing different REACT libraries
 
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { StatusBar } from "expo-status-bar";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, Text, View } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 
 // Importing screens from "Screens" folder
-import Home from './screens/Home';
-import ToDoList from './screens/ToDoList';
-import EditList from './screens/EditList';
-import colors from './constants/colors';
+import Home from "./screens/Home";
+import ToDoList from "./screens/ToDoList";
+import EditList from "./screens/EditList";
+import Login from "./screens/Login";
+import colors from "./constants/colors";
+import Settings from "./screens/Settings";
 
-// Creating stack navigator 
+// Importing firebase
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
+import "firebase/compat/firestore";
+
+// Creating stack navigators
 
 const Stack = createStackNavigator();
+const AuthStack = createStackNavigator();
 
-// Code body, functions below, loading screens
+// Returns log in screen
+const AuthScreens = () => {
+  return (
+    <AuthStack.Navigator>
+      <AuthStack.Screen name="Login" component={Login} />
+    </AuthStack.Navigator>
+  );
+};
+
+// Code body, screens
+
+const Screens = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Too-Doo" component={Home} />
+      <Stack.Screen name="Settings" component={Settings} />
+      <Stack.Screen
+        name="ToDoList"
+        component={ToDoList}
+        options={({ route }) => {
+          return {
+            title: route.params.title,
+            headerStyle: {
+              backgroundColor: route.params.color,
+            },
+            headerTintColor: "white",
+          };
+        }}
+      />
+      <Stack.Screen
+        name="Edit"
+        component={EditList}
+        options={({ route }) => {
+          return {
+            title: route.params.title
+              ? `Edit ${route.params.title} list`
+              : "Create new list",
+            headerStyle: {
+              backgroundColor: route.params.color || colors.blue,
+            },
+            headerTintColor: "white",
+          };
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
+
+// runs the code and check authentication
 
 export default function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  useEffect(() => {
+    if (firebase.auth().currentUser) {
+      setIsAuthenticated(true);
+    }
+    firebase.auth().onAuthStateChanged((user) => {
+      console.log("Checking auth state...");
+      if (user) {
+        setIsAuthenticated(true);
+      } else {
+        setIsAuthenticated(false);
+      }
+    });
+  }, []);
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen 
-          name="Too-Doo" 
-          component={Home}
-        />
-        <Stack.Screen 
-          name="ToDoList" 
-          component={ToDoList}
-          options={({route}) => {
-            return(
-              {
-                title: route.params.title,
-                headerStyle: {
-                  backgroundColor: route.params.color
-                },
-                headerTintColor: "white"
-              }
-            )
-          }} 
-        />
-        <Stack.Screen name="Edit" component={EditList}
-          options={({route}) => {
-            return(
-              {
-                title: route.params.title ? `Edit ${route.params.title} list` : "Create new list",
-                headerStyle: {
-                  backgroundColor: route.params.color || colors.blue
-                },
-                headerTintColor: "white"
-              }
-            )
-          }} 
-        />
-      </Stack.Navigator>
+      {isAuthenticated ? <Screens /> : <AuthScreens />}
     </NavigationContainer>
-
   );
 }
 
@@ -65,8 +101,21 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
+
+// firebase configuration
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAqaZWuxVOg0g1-whowIK7ixWQfBccNmQI",
+  authDomain: "too-doo-9bf5f.firebaseapp.com",
+  projectId: "too-doo-9bf5f",
+  storageBucket: "too-doo-9bf5f.appspot.com",
+  messagingSenderId: "433699160397",
+  appId: "1:433699160397:web:1bc7bb641f81a47d3cb704",
+};
+
+firebase.initializeApp(firebaseConfig);
