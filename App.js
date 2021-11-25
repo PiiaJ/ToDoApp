@@ -2,7 +2,7 @@
 
 import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { LogBox, StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
@@ -28,7 +28,24 @@ const AuthStack = createStackNavigator();
 const AuthScreens = () => {
   return (
     <AuthStack.Navigator>
-      <AuthStack.Screen name="Login" component={Login} />
+      <AuthStack.Screen
+        name="Login"
+        component={Login}
+        options={() => {
+          return {
+            headerStyle: {
+              backgroundColor: colors.bground,
+              height: 90,
+            },
+            headerTitleStyle: {
+              fontWeight: "bold",
+            },
+
+            headerTintColor: "black",
+            headerTitleAlign: "center",
+          };
+        }}
+      />
     </AuthStack.Navigator>
   );
 };
@@ -38,8 +55,37 @@ const AuthScreens = () => {
 const Screens = () => {
   return (
     <Stack.Navigator style={styles}>
-      <Stack.Screen name="Too-Doo" component={Home} />
-      <Stack.Screen name="Settings" component={Settings} />
+      <Stack.Screen
+        name="Too-Doo"
+        component={Home}
+        options={() => {
+          return {
+            headerStyle: {
+              backgroundColor: colors.bground,
+              height: 90,
+            },
+            headerTitleStyle: {
+              fontWeight: "bold",
+            },
+            headerTintColor: "black",
+            headerTitleAlign: "center",
+          };
+        }}
+      />
+      <Stack.Screen
+        name="Settings"
+        component={Settings}
+        options={({ route }) => {
+          return {
+            headerStyle: {
+              backgroundColor: colors.bground,
+              height: 90,
+            },
+            headerTintColor: "black",
+            headerTitleAlign: "center",
+          };
+        }}
+      />
       <Stack.Screen
         name="ToDoList"
         component={ToDoList}
@@ -50,6 +96,7 @@ const Screens = () => {
               backgroundColor: route.params.color,
             },
             headerTintColor: "black",
+            headerTitleAlign: "center",
           };
         }}
       />
@@ -64,7 +111,8 @@ const Screens = () => {
             headerStyle: {
               backgroundColor: route.params.color || colors.blue,
             },
-            headerTintColor: "white",
+            headerTintColor: "black",
+            headerTitleAlign: "center",
           };
         }}
       />
@@ -75,6 +123,11 @@ const Screens = () => {
 // runs the code and check authentication
 
 export default function App() {
+  {
+    /* Hides warning of timer settings set too long */
+  }
+  LogBox.ignoreLogs(["Setting a timer"]);
+
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   useEffect(() => {
     if (firebase.auth().currentUser) {
