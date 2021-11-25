@@ -42,6 +42,7 @@ const AuthScreens = () => {
             },
 
             headerTintColor: "black",
+            headerTitleAlign: "center",
           };
         }}
       />
@@ -67,6 +68,7 @@ const Screens = () => {
               fontWeight: "bold",
             },
             headerTintColor: "black",
+            headerTitleAlign: "center",
           };
         }}
       />
@@ -80,6 +82,7 @@ const Screens = () => {
               height: 90,
             },
             headerTintColor: "black",
+            headerTitleAlign: "center",
           };
         }}
       />
@@ -93,6 +96,7 @@ const Screens = () => {
               backgroundColor: route.params.color,
             },
             headerTintColor: "black",
+            headerTitleAlign: "center",
           };
         }}
       />
@@ -108,6 +112,7 @@ const Screens = () => {
               backgroundColor: route.params.color || colors.blue,
             },
             headerTintColor: "black",
+            headerTitleAlign: "center",
           };
         }}
       />
@@ -118,7 +123,11 @@ const Screens = () => {
 // runs the code and check authentication
 
 export default function App() {
+  {
+    /* Hides warning of timer settings set too long */
+  }
   LogBox.ignoreLogs(["Setting a timer"]);
+
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   useEffect(() => {
     if (firebase.auth().currentUser) {

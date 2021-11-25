@@ -35,7 +35,7 @@ const ListButton = ({ title, color, onPress, onDelete, onOptions }) => {
       </View>
       <View style={{ flexDirection: "row" }}>
         <TouchableOpacity onPress={onOptions}>
-          <Ionicons name="options-outline" size={24} color="black" />
+          <Ionicons name="pencil" size={24} color="black" />
         </TouchableOpacity>
         <TouchableOpacity onPress={onDelete}>
           <Ionicons name="trash-outline" size={24} color="black" />
