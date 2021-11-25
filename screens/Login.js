@@ -186,5 +186,6 @@ const styles = StyleSheet.create({
     fontSize: 46,
     color: colors.black,
     alignSelf: "center",
+    marginTop: 20,
   },
 });

@@ -28,7 +28,19 @@ const AuthStack = createStackNavigator();
 const AuthScreens = () => {
   return (
     <AuthStack.Navigator>
-      <AuthStack.Screen name="Login" component={Login} />
+      <AuthStack.Screen name="Login" component={Login} options={( ) => {
+          return {
+            headerStyle: {
+              backgroundColor: colors.bground,
+              height: 90,
+            },
+            headerTitleStyle: {
+              fontWeight: 'bold'
+            },
+            
+            headerTintColor: "black",
+          };
+        }}/>
     </AuthStack.Navigator>
   );
 };
@@ -38,8 +50,31 @@ const AuthScreens = () => {
 const Screens = () => {
   return (
     <Stack.Navigator style={styles}>
-      <Stack.Screen name="Too-Doo" component={Home} />
-      <Stack.Screen name="Settings" component={Settings} />
+      <Stack.Screen name="Too-Doo" component={Home} 
+        options={( ) => {
+          return {
+            headerStyle: {
+              backgroundColor: colors.bground,
+              height: 90,
+            },
+            headerTitleStyle: {
+              fontWeight: 'bold'
+            },
+            headerTintColor: "black",
+          };
+        }}
+      />
+      <Stack.Screen name="Settings" component={Settings} 
+        options={({ route }) => {
+          return {
+            headerStyle: {
+              backgroundColor: colors.bground,
+              height: 90,
+            },
+            headerTintColor: "black",
+          };
+        }}
+      />
       <Stack.Screen
         name="ToDoList"
         component={ToDoList}
@@ -64,7 +99,7 @@ const Screens = () => {
             headerStyle: {
               backgroundColor: route.params.color || colors.blue,
             },
-            headerTintColor: "white",
+            headerTintColor: "black",
           };
         }}
       />

@@ -49,7 +49,7 @@ const renderAddListIcon = (navigation, addItemToList) => {
         style={{ justifyContent: "center", marginRight: 4 }}
         onPress={() => navigation.navigate("Settings")}
       >
-        <Ionicons name="settings" size={24} />
+        <Ionicons name="settings" size={24}/>
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() =>
@@ -154,12 +154,20 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    height: 100,
+    height: 70,
     flex: 1,
     borderRadius: 20,
     marginHorizontal: 20,
     marginVertical: 10,
     padding: 15,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   icon: {
     padding: 10,

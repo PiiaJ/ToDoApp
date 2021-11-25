@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
   icon: {
     padding: 5,
     marginEnd: 20,
-    fontSize: 32,
+    fontSize: 40,
     color: "black",
   },
 });
