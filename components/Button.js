@@ -18,15 +18,23 @@ export default ({ buttonStyle, textStyle, onPress, text }) => {
 const styles = StyleSheet.create({
   button: {
     flexDirection: "row",
-    borderRadius: 25,
-    backgroundColor: colors.darkGray,
+    borderRadius: 20,
+    backgroundColor: colors.bground,
     height: 48,
-    margin: 16,
+    margin: 20,
     justifyContent: "center",
     alignItems: "center",
+    shadowColor: "#000000",
+    shadowOffset: {
+      width: 1,
+      height: 2,
+    },
+    shadowOpacity: 1.25,
+    shadowRadius: 1.84,
+    elevation: 5,
   },
   text: {
-    color: "white",
+    color: "black",
     fontSize: 24,
     fontWeight: "bold",
   },

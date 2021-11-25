@@ -43,6 +43,7 @@ const createAccount = (email, password) => {
     .createUserWithEmailAndPassword(email, password)
     .then(({ user }) => {
       console.log("Creating user");
+      firestore().collection("users").doc(user.uid).set({});
     });
 };
 
@@ -69,27 +70,27 @@ export default () => {
 
       <View style={{ flex: 1 }}>
         <LabeledInput
-          label="Email"
           text={emailField.text}
+          placeholder ="Email"
           onChangeText={(text) => {
             setEmailField({ text });
           }}
           errorMessage={emailField.errorMessage}
-          labelStyle={styles.label}
+          placeholderStyle={styles.placeholder}
           autoCompleteType="email"
         />
 
         {/* Password input */}
 
         <LabeledInput
-          label="Password"
           text={passwordField.text}
+          placeholder = "Password"
           onChangeText={(text) => {
             setPasswordField({ text });
           }}
           secureTextEntry={true}
           errorMessage={passwordField.errorMessage}
-          labelStyle={styles.label}
+          placeholderStyle={styles.placeholder}
           autoCompleteType="password"
         />
 
@@ -97,7 +98,7 @@ export default () => {
 
         {isCreateMode && (
           <LabeledInput
-            label="Re-enter Password"
+            placeholder="Re-enter Password"
             text={passwordReentryField.text}
             onChangeText={(text) => {
               setPasswordReentryField({ text });
@@ -120,9 +121,11 @@ export default () => {
           <Text
             style={{
               alignSelf: "center",
-              color: colors.blue,
-              fontSize: 16,
-              margin: 4,
+              color: "#00B3FF",
+              fontSize: 24,
+              fontWeight: 'bold',
+              margin: 10,
+              marginTop: 20,
             }}
           >
             {isCreateMode ? "Already have an account?" : "Create new account"}
@@ -157,7 +160,7 @@ export default () => {
               : login(emailField.text, passwordField.text);
           }
         }}
-        buttonStyle={{ backgroundColor: colors.red }}
+        buttonStyle={{ backgroundColor: colors.bground  }}
         text={isCreateMode ? "Create Account" : "Login"}
       />
     </View>
@@ -173,14 +176,15 @@ const styles = StyleSheet.create({
     alignItems: "stretch",
   },
 
-  label: {
+  placeholder: {
     fontSize: 16,
     fontWeight: "bold",
     color: colors.black,
+    backgroundColor: "#8FDEFF", 
   },
   header: {
-    fontSize: 72,
-    color: colors.red,
+    fontSize: 46,
+    color: colors.black,
     alignSelf: "center",
   },
 });

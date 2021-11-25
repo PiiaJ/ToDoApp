@@ -2,7 +2,7 @@
 
 import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { LogBox, StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
@@ -37,7 +37,7 @@ const AuthScreens = () => {
 
 const Screens = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator style={styles}>
       <Stack.Screen name="Too-Doo" component={Home} />
       <Stack.Screen name="Settings" component={Settings} />
       <Stack.Screen
@@ -49,7 +49,7 @@ const Screens = () => {
             headerStyle: {
               backgroundColor: route.params.color,
             },
-            headerTintColor: "white",
+            headerTintColor: "black",
           };
         }}
       />
@@ -75,6 +75,7 @@ const Screens = () => {
 // runs the code and check authentication
 
 export default function App() {
+  LogBox.ignoreLogs(["Setting a timer"]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   useEffect(() => {
     if (firebase.auth().currentUser) {
