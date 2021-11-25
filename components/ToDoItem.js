@@ -2,7 +2,7 @@
 
 import React, {useState} from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 
 // Importing custom made variables/pages
 
@@ -12,11 +12,11 @@ import Checkbox from './Checkbox';
 
 // 
 
-const EditableText = ({isChecked, onChangeText, text, isNewItem}) => {
-    const [isEditMode, setEditMode] = useState(isNewItem);
+const EditableText = ({isChecked, onChangeText, text, ...props}) => {
+    const [isEditMode, setEditMode] = useState(props.new);
     return(
         <TouchableOpacity style={{flex:1}} onPress={() => !isChecked && setEditMode(true)}>
-        {isEditMode ?
+        {isEditMode ? (
             <TextInput
                 underlineColorAndroid={"transparent"}
                 selectionColor={"transparent"}
@@ -27,8 +27,12 @@ const EditableText = ({isChecked, onChangeText, text, isNewItem}) => {
                 onSubmitEditing={()=> {}}
                 maxLength={30}
                 style={[styles.input, {outline: "none"}]}
-                onBlur={() => setEditMode(false)}
-            /> :
+                onBlur={() => {
+                    props.onBlur && props.onBlur();
+                    setEditMode(false);
+                }}
+            /> 
+            ): (
             <Text
             style={[
                 styles.text,
@@ -40,13 +44,14 @@ const EditableText = ({isChecked, onChangeText, text, isNewItem}) => {
         >
             {text}
         </Text>
-        }
+        )}
     </TouchableOpacity>
     );
-}
+};
 
 // Main code
-export default ({text, isChecked, onChecked, onChangeText, onDelete, isNewItem}) => {
+export default ({text, isChecked, onChecked, onChangeText, onDelete, ...props}) => {
+    console.log(props.new);
     return(
         <View style={styles.container}>
             <View style={{flexDirection: "row", flex: 1}}>
@@ -55,15 +60,15 @@ export default ({text, isChecked, onChecked, onChangeText, onDelete, isNewItem})
                     text={text} 
                     onChangeText={onChangeText} 
                     isChecked={isChecked} 
-                    isNewItem={isNewItem}
+                    {...props}
                 />
             </View>
             <TouchableOpacity onPress={onDelete}>
-                <Text style={[styles.icon, { color: colors.red}]}>X</Text>
+                <MaterialIcons style={styles.icon} name="delete-forever" size={22} color="black" />
             </TouchableOpacity>
         </View>
-    )
-}
+    );
+};
 
 // Styles
 
@@ -74,10 +79,14 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         alignItems: "center",
         padding: 10,
+        borderBottomColor: colors.lightGray,
+        borderBottomWidth: 1,
+        borderBottomEndRadius: 20,
+        borderBottomStartRadius: 20,
     },
     icon: {
         padding: 5,
-        fontSize: 16,
+        marginEnd: 20,
     },
     input: {
         color: colors.black,
@@ -89,7 +98,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
     },
     text: {
-        padding: 3,
+        padding: 5.5,
         fontSize: 16,
     },
 });
