@@ -64,7 +64,11 @@ export default ({text, isChecked, onChecked, onChangeText, onDelete, ...props}) 
                 />
             </View>
             <TouchableOpacity onPress={onDelete}>
+<<<<<<< HEAD
                 <MaterialIcons name="delete-forever" size={24} color="black" />
+=======
+                <MaterialIcons style={styles.icon} name="delete-forever" size={22} color="black" />
+>>>>>>> 807f70f8da61c0c5dc5de3d9014516efaceaf094
             </TouchableOpacity>
         </View>
     );
@@ -79,10 +83,14 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         alignItems: "center",
         padding: 10,
+        borderBottomColor: colors.lightGray,
+        borderBottomWidth: 1,
+        borderBottomEndRadius: 20,
+        borderBottomStartRadius: 20,
     },
     icon: {
         padding: 5,
-        fontSize: 16,
+        marginEnd: 20,
     },
     input: {
         color: colors.black,
@@ -94,7 +102,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
     },
     text: {
-        padding: 3,
+        padding: 5.5,
         fontSize: 16,
     },
 });

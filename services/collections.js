@@ -25,10 +25,12 @@ export const removeDoc = (ref, id) => {
       console.log(`Removed item: ${id}`);
     });
 };
-/*
+
 export const updateDoc = (ref, id, data) => {
-    ref.doc(id).set(data).then(() => {
-        console.log(`Updated item: ${id}`);
-    });  
+  ref
+    .doc(id)
+    .set(data)
+    .then(() => {
+      console.log(`Updated item: ${id}`);
+    });
 };
-*/

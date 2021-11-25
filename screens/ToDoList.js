@@ -8,7 +8,12 @@ import {
   FlatList,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { onSnapshot, addDoc, removeDoc, updateDoc } from "../services/collections";
+import {
+  onSnapshot,
+  addDoc,
+  removeDoc,
+  updateDoc,
+} from "../services/collections";
 
 // Importing custom made variables/pages
 
@@ -22,7 +27,7 @@ import "firebase/compat/firestore";
 const renderAddListIcon = (addItem) => {
   return (
     <TouchableOpacity onPress={() => addItem()}>
-        <Text style={styles.icon}>+</Text>
+      <Text style={styles.icon}>+</Text>
     </TouchableOpacity>
   );
 };
@@ -33,22 +38,32 @@ export default ({ navigation, route }) => {
   let [toDoItems, setToDoItems] = useState([]);
   const [newItem, setNewItem] = useState();
   // Function that adds a list to a lists array
-  const toDoItemsRef = firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid).collection("lists").doc(route.params.listId).collection("toDoItems");
-  
+  const toDoItemsRef = firebase
+    .firestore()
+    .collection("users")
+    .doc(firebase.auth().currentUser.uid)
+    .collection("lists")
+    .doc(route.params.listId)
+    .collection("toDoItems");
+
   useEffect(() => {
-    onSnapshot(toDoItemsRef, (newToDoItems) => {
-      setToDoItems(newToDoItems);
-    }, {
-      sort: (a, b) => {
-        if (a.isChecked && !b.isChecked) {
-          return 1;
-        } 
-        if (b.isChecked && !a.isChecked) {
-          return -1;
-        }
-        return 0;
+    onSnapshot(
+      toDoItemsRef,
+      (newToDoItems) => {
+        setToDoItems(newToDoItems);
       },
-    });
+      {
+        sort: (a, b) => {
+          if (a.isChecked && !b.isChecked) {
+            return 1;
+          }
+          if (b.isChecked && !a.isChecked) {
+            return -1;
+          }
+          return 0;
+        },
+      }
+    );
   }, []);
 
   const addItemToList = () => {
@@ -62,14 +77,13 @@ export default ({ navigation, route }) => {
     setToDoItems([...toDoItems]);
   };
 
-
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => renderAddListIcon(addItemToList),
     });
   });
 
-  if(newItem) {
+  if (newItem) {
     toDoItems = [newItem, ...toDoItems];
   }
 
@@ -77,10 +91,7 @@ export default ({ navigation, route }) => {
     <View style={styles.container}>
       <FlatList
         data={toDoItems}
-        renderItem={({ 
-          item: { id, text, isChecked, ...params }, 
-          index, 
-        }) => {
+        renderItem={({ item: { id, text, isChecked, ...params }, index }) => {
           return (
             <ToDoItem
               {...params}
@@ -91,10 +102,10 @@ export default ({ navigation, route }) => {
                 if (id) {
                   data.id = id;
                 }
-                addDoc(toDoItemsRef, data)
+                addDoc(toDoItemsRef, data);
               }}
               onChangeText={(newText) => {
-                if(params.new) {
+                if (params.new) {
                   setNewItem({
                     text: newText,
                     isChecked,
@@ -109,14 +120,14 @@ export default ({ navigation, route }) => {
                 params.new ? setNewItem(null) : removeItemFromLists(index);
                 id && removeDoc(toDoItemsRef, id);
               }}
-              onBlur ={() => {
+              onBlur={() => {
                 if (text.length > 1) {
-                  let data = { text, isChecked }
+                  let data = { text, isChecked };
                   if (id) {
-                    data.id= id;
+                    data.id = id;
                   }
                   addDoc(toDoItemsRef, data);
-                  params.new && setNewItem(null)
+                  params.new && setNewItem(null);
                 } else {
                   params.new ? setNewItem(null) : removeItemFromLists(index);
                 }
@@ -139,7 +150,7 @@ const styles = StyleSheet.create({
   icon: {
     padding: 5,
     marginEnd: 20,
-    fontSize: 32,
+    fontSize: 40,
     color: "black",
   },
 });
