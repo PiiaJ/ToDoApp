@@ -1,6 +1,5 @@
 // React native libraries import
-
-import React, { useState, useLayoutEffect, UseEffect } from "react";
+import React, { useState, useLayoutEffect, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -15,7 +14,6 @@ import { onSnapshot, addDoc, removeDoc, updateDoc } from "../services/collection
 
 import colors from "../constants/colors";
 import ToDoItem from "../components/ToDoItem";
-import { useEffect } from "react/cjs/react.development";
 import "firebase/compat/auth";
 import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
@@ -23,10 +21,8 @@ import "firebase/compat/firestore";
 
 const renderAddListIcon = (addItem) => {
   return (
-    <TouchableOpacity
-      onPress={() => addItem()}
-    >
-      <Text style={styles.icon}>+</Text>
+    <TouchableOpacity onPress={() => addItem()}>
+        <Text style={styles.icon}>+</Text>
     </TouchableOpacity>
   );
 };
@@ -38,24 +34,25 @@ export default ({ navigation, route }) => {
   const [newItem, setNewItem] = useState();
   // Function that adds a list to a lists array
   const toDoItemsRef = firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid).collection("lists").doc(route.params.listId).collection("toDoItems");
+  
   useEffect(() => {
     onSnapshot(toDoItemsRef, (newToDoItems) => {
       setToDoItems(newToDoItems);
     }, {
       sort: (a, b) => {
-        if (a.isChecked && !b.isChecked){
+        if (a.isChecked && !b.isChecked) {
           return 1;
         } 
         if (b.isChecked && !a.isChecked) {
           return -1;
         }
         return 0;
-      }
+      },
     });
   }, []);
 
   const addItemToList = () => {
-    setNewItem({ text: "", isChecked: false, isNewItem: true})
+    setNewItem({ text: "", isChecked: false, new: true });
   };
 
   // Function that deletes the list from the list of lists
@@ -80,7 +77,10 @@ export default ({ navigation, route }) => {
     <View style={styles.container}>
       <FlatList
         data={toDoItems}
-        renderItem={({ item: { id, text, isChecked, ...params }, index }) => {
+        renderItem={({ 
+          item: { id, text, isChecked, ...params }, 
+          index, 
+        }) => {
           return (
             <ToDoItem
               {...params}
@@ -89,16 +89,16 @@ export default ({ navigation, route }) => {
               onChecked={() => {
                 let data = { text, isChecked: !isChecked };
                 if (id) {
-                  item.id =id;
+                  data.id = id;
                 }
                 addDoc(toDoItemsRef, data)
               }}
               onChangeText={(newText) => {
                 if(params.new) {
                   setNewItem({
-                    text: newItem,
+                    text: newText,
                     isChecked,
-                    new: params.new
+                    new: params.new,
                   });
                 } else {
                   toDoItems[index].text = newText;
@@ -111,7 +111,7 @@ export default ({ navigation, route }) => {
               }}
               onBlur ={() => {
                 if (text.length > 1) {
-                  let data = { text, isChecked}
+                  let data = { text, isChecked }
                   if (id) {
                     data.id= id;
                   }

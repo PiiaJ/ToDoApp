@@ -25,7 +25,7 @@ export default ({
       <TextInput
         underlineColorAndroid="transparent"
         selectionColor="transparent"
-        style={[styles.input, { outline: "none" }, inputStyle]}
+        style={[styles.input, inputStyle]}
         value={text}
         onChangeText={onChangeText}
         {...inputProps}

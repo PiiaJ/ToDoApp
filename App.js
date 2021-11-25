@@ -37,7 +37,7 @@ const AuthScreens = () => {
 
 const Screens = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator style={styles}>
       <Stack.Screen name="Too-Doo" component={Home} />
       <Stack.Screen name="Settings" component={Settings} />
       <Stack.Screen
@@ -49,7 +49,7 @@ const Screens = () => {
             headerStyle: {
               backgroundColor: route.params.color,
             },
-            headerTintColor: "white",
+            headerTintColor: "black",
           };
         }}
       />

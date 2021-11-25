@@ -4,13 +4,13 @@ export const onSnapshot =(ref, callback, options) => {
             const data = doc.data();
             data.id = doc.id;
             return data;
-        })
+        });
         items = options && options.sort ? items.sort(options.sort) : items;
         callback(items);
-    })
-}
+    });
+};
 
-export const addDoc = (ref, {id, ...data}) => {
+export const addDoc = (ref, { id, ...data }) => {
     const doc = id ? ref.doc(id) : ref.doc();
     doc.set(data).then(() => {
         console.log("Add new item");

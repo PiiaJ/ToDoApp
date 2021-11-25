@@ -2,7 +2,7 @@
 
 import React, {useState} from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 
 // Importing custom made variables/pages
 
@@ -16,7 +16,7 @@ const EditableText = ({isChecked, onChangeText, text, ...props}) => {
     const [isEditMode, setEditMode] = useState(props.new);
     return(
         <TouchableOpacity style={{flex:1}} onPress={() => !isChecked && setEditMode(true)}>
-        {isEditMode ?
+        {isEditMode ? (
             <TextInput
                 underlineColorAndroid={"transparent"}
                 selectionColor={"transparent"}
@@ -28,10 +28,11 @@ const EditableText = ({isChecked, onChangeText, text, ...props}) => {
                 maxLength={30}
                 style={[styles.input, {outline: "none"}]}
                 onBlur={() => {
-                    props.onBlur && props.onBlur()
-                    setEditMode(false)
+                    props.onBlur && props.onBlur();
+                    setEditMode(false);
                 }}
-            /> :
+            /> 
+            ): (
             <Text
             style={[
                 styles.text,
@@ -43,13 +44,14 @@ const EditableText = ({isChecked, onChangeText, text, ...props}) => {
         >
             {text}
         </Text>
-        }
+        )}
     </TouchableOpacity>
     );
-}
+};
 
 // Main code
 export default ({text, isChecked, onChecked, onChangeText, onDelete, ...props}) => {
+    console.log(props.new);
     return(
         <View style={styles.container}>
             <View style={{flexDirection: "row", flex: 1}}>
@@ -62,11 +64,11 @@ export default ({text, isChecked, onChecked, onChangeText, onDelete, ...props}) 
                 />
             </View>
             <TouchableOpacity onPress={onDelete}>
-                <Text style={[styles.icon, { color: colors.red}]}>X</Text>
+                <MaterialIcons name="delete-forever" size={24} color="black" />
             </TouchableOpacity>
         </View>
-    )
-}
+    );
+};
 
 // Styles
 
