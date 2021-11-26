@@ -1,7 +1,7 @@
 // React native libraries import
 
 import React, { useState } from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 
 // Importing custom made variables/pages
 
@@ -64,7 +64,8 @@ export default () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Too-Doo</Text>
+      <Text style={styles.header}><Image style={{ width: 50, height: 50 }}
+      source={require('../assets/adaptive-icon.png')} /> Too-Doo</Text>
 
       {/* Email input */}
 

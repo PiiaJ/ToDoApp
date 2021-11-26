@@ -2,13 +2,7 @@
 
 import { CommonActions } from "@react-navigation/routers";
 import React, { useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  TextInput,
-} from "react-native";
+import { StyleSheet, Text, View, TextInput } from "react-native";
 
 // Importing custom made variables/pages
 
@@ -19,16 +13,16 @@ import Button from "../components/Button";
 // Color list
 
 const colorList = [
-  "blue",
-  "teal",
-  "green",
-  "olive",
   "yellow",
   "orange",
   "red",
   "pink",
   "purple",
-  "blueGray",
+  "blue",
+  "teal",
+  "green",
+  "olive",
+  "lightGray",
 ];
 
 // Code

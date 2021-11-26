@@ -34,7 +34,7 @@ const EditableText = ({ isChecked, onChangeText, text, ...props }) => {
           placeholder={"Add new item here"}
           onSubmitEditing={() => {}}
           maxLength={30}
-          style={[styles.input, { outline: "none" }]}
+          style={[styles.input, {  }]}
           onBlur={() => {
             props.onBlur && props.onBlur();
             setEditMode(false);

@@ -7,17 +7,10 @@ import {
   TouchableOpacity,
   FlatList,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import {
-  onSnapshot,
-  addDoc,
-  removeDoc,
-  updateDoc,
-} from "../services/collections";
+import { onSnapshot, addDoc, removeDoc } from "../services/collections";
 
 // Importing custom made variables/pages
 
-import colors from "../constants/colors";
 import ToDoItem from "../components/ToDoItem";
 import "firebase/compat/auth";
 import firebase from "firebase/compat/app";
@@ -148,7 +141,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   icon: {
-    padding: 5,
+    paddingEnd: 0,
     marginEnd: 20,
     fontSize: 40,
     color: "black",

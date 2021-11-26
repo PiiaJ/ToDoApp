@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   FlatList,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import {
   onSnapshot,
   addDoc,
@@ -34,10 +34,7 @@ const ListButton = ({ title, color, onPress, onDelete, onOptions }) => {
         <Text style={styles.itemTitle}>{title}</Text>
       </View>
       <View style={{ flexDirection: "row" }}>
-        <TouchableOpacity
-          onPress={onOptions}
-          style={{ justifyContent: "center", marginRight: 4 }}
-        >
+        <TouchableOpacity style={{ marginEnd: 20 }} onPress={onOptions}>
           <Ionicons name="pencil" size={24} color="black" />
         </TouchableOpacity>
         <TouchableOpacity onPress={onDelete}>
@@ -52,12 +49,19 @@ const ListButton = ({ title, color, onPress, onDelete, onOptions }) => {
 
 const renderAddListIcon = (navigation, addItemToList) => {
   return (
-    <View style={{ flexDirection: "row" }}>
+    <View
+      style={{ flexDirection: "row", justifyContent: "flex-start", width: 345 }}
+    >
       <TouchableOpacity
-        style={{ justifyContent: "center", marginRight: 4 }}
+        style={{
+          justifyContent: "center",
+          marginStart: 0,
+          paddingEnd: 265,
+          alignContent: "flex-start",
+        }}
         onPress={() => navigation.navigate("Settings")}
       >
-        <Ionicons name="settings" size={24} />
+        <MaterialIcons name="logout" size={28} color="black" />
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() =>
@@ -187,8 +191,8 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   icon: {
-    padding: 10,
-    fontSize: 30,
+    padding: 0,
+    fontSize: 40,
     marginEnd: 20,
   },
   centeredView: {
