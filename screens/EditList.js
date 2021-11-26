@@ -19,16 +19,16 @@ import Button from "../components/Button";
 // Color list
 
 const colorList = [
-  "blue",
-  "teal",
-  "green",
-  "olive",
   "yellow",
   "orange",
   "red",
   "pink",
   "purple",
-  "blueGray",
+  "blue",
+  "teal",
+  "green",
+  "olive", 
+  "lightGray",
 ];
 
 // Code

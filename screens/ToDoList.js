@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   icon: {
-    padding: 5,
+    paddingEnd: 0,
     marginEnd: 20,
     fontSize: 40,
     color: "black",

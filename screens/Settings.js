@@ -1,7 +1,7 @@
 // React native libraries import
 
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Image } from "react-native";
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 
@@ -15,7 +15,8 @@ import colors from "../constants/colors";
 export default () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Too-Doo</Text>
+      <Text style={styles.header}><Image style={{ width: 50, height: 50 }}
+      source={require('../assets/adaptive-icon.png')} /> Too-Doo</Text>
       <Button
         text="Log out"
         onPress={() => {
